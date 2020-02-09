@@ -1,11 +1,18 @@
-# My Personal Project
+# Financial Management System
 
-## A subtitle
+### Function Introduction
+This *financial management system* is designed to help users keep track of their financial
+ flows and make budget plans. The system could track users' bank accounts balance, 
+ income, expenses, and set budget goals. It can also produce financial reports by
+ visualizing user's total wealth, spending records in charts.
+ 
 
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
 
-An example of text with **bold** and *italic* fonts.  Note that the IntelliJ markdown previewer doesn't seem to render 
-the bold and italic fonts correctly but they will appear correctly on GitHub.
+### User Group
+- Person
+- Small Group
+- Company
+
+### Point of Interest
+The budget management software that I am using are too complicated and cannot have all 
+features that I want, so I decided to design one by myself. 
