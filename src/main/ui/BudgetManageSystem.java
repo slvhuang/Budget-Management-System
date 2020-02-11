@@ -10,7 +10,6 @@ import java.util.Scanner;
 // Budget Management System
 public class BudgetManageSystem {
 
-
     private ExpenseRecord expenseRecord = new ExpenseRecord();
     private Scanner input;
 
@@ -25,7 +24,7 @@ public class BudgetManageSystem {
     // EFFECTS: process user input
     public void runSystem() {
         boolean keepRunning = true;
-        String command = null;
+        String command;
         input = new Scanner(System.in);
 
         while (keepRunning) {
@@ -67,13 +66,14 @@ public class BudgetManageSystem {
         }
     }
 
-    //MODIFIES:
-    //EFFECTS:
+
+    //MODIFIES: this
+    //EFFECTS: add a expense to the expense record
     public void doAddExpense() {
         Expense exp;
         String expTitle = insertTitle();
         String expReceiver = insertReceiver();
-        Double expAmount =  insertAmount();
+        double expAmount =  insertAmount();
         LocalDate expDate = insertDate();
         String expCategory = insertCategory();
 
@@ -83,7 +83,7 @@ public class BudgetManageSystem {
     }
 
 
-    //EFFECTS:
+    //EFFECTS: return the title for the insertion
     public String insertTitle() {
         System.out.println("\nPlease Type The Title Of The Expense (eg: Grocery)");
         String title = input.next();
@@ -97,7 +97,7 @@ public class BudgetManageSystem {
     }
 
 
-    //EFFECTS:
+    //EFFECTS: return the name of receiver for the insertion
     public String insertReceiver() {
         System.out.println("\nPlease Type The Receiver Of The Expense (eg: UBC SHHS)");
         String receiver = input.next();
@@ -112,7 +112,7 @@ public class BudgetManageSystem {
     }
 
 
-    //EFFECTS:
+    //EFFECTS: return the amount for the insertion if > 0, otherwise return 0.0
     public double insertAmount() {
         System.out.println("\nPlease Type The Amount Of The Expense (positive value)");
         System.out.print("\nEnter Amount To Record: $");
@@ -127,7 +127,7 @@ public class BudgetManageSystem {
 
     }
 
-    //EFFECTS:
+    //EFFECTS: return the date for the insertion if valid, otherwise return current date
     public LocalDate insertDate() {
         System.out.println("\nPlease Type The Year Of The Expense (eg: 2018)");
         int year = input.nextInt();
@@ -145,7 +145,7 @@ public class BudgetManageSystem {
 
     }
 
-    //EFFECTS:
+    //EFFECTS: return the category for the insertion
     public String insertCategory() {
         System.out.println("\nPlease Type The Category Of The Expense (eg: Transportation)");
         String category = input.next();
@@ -160,11 +160,11 @@ public class BudgetManageSystem {
     }
 
 
-    //MODIFIES:
-    //EFFECTS:
+    //MODIFIES: this
+    //EFFECTS: view a list of titles and dates of all expenses in the record, and view a expense in detail
     public void doViewRecord() {
         String record = expenseRecord.viewTitleAndDateList();
-        if (record == "") {
+        if (record.equals("")) {
             System.out.println("\nThe Record Is Empty, Please Insert Information\n");
         } else {
             System.out.println(record);
@@ -172,9 +172,10 @@ public class BudgetManageSystem {
         }
     }
 
+    // EFFECTS: prompts user to select whether or not view a expense in detail
     public void viewDetail() {
-        String queryTitle = "";
-        LocalDate queryDate = LocalDate.now();
+        String queryTitle;
+        LocalDate queryDate;
         String choice = "";
 
         while (!(choice.equals("t") || choice.equals("f"))) {
@@ -204,12 +205,20 @@ public class BudgetManageSystem {
     }
 
 
+    // return the input as the title of expense for query
     public String searchTitle() {
         System.out.println("\nPlease Type The Title Of The Selected Expense (eg: Grocery)");
         String title = input.next();
-        return title;
+
+        if (title.length() == 0) {
+            System.out.println("Title Inserted As <Untitled>");
+            return "Untitled";
+        } else {
+            return title;
+        }
     }
 
+    // return the input as the date of expense for query
     public LocalDate searchDate() {
         System.out.println("\nPlease Type The Year Of The Selected Expense (eg: 2018)");
         int year = input.nextInt();
@@ -227,8 +236,8 @@ public class BudgetManageSystem {
     }
 
 
-    //MODIFIES:
-    //EFFECTS:
+    //MODIFIES: this
+    //EFFECTS: produce a string showing total expense amount for a month
     public void doViewMonthlySum() {
         System.out.println("\nPlease Enter The Year For The Query (eg: 2018)");
         int year = input.nextInt();
