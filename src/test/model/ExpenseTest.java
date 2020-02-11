@@ -28,7 +28,7 @@ class ExpenseTest {
     void testWithinMonth() {
         assertTrue(testExpense.withinMonth(2020,01));
         assertFalse(testExpense.withinMonth(2019,12));
-        assertFalse(testExpense.withinMonth(2019,01));
+        assertFalse(testExpense.withinMonth(2020,02));
     }
 
     @Test
