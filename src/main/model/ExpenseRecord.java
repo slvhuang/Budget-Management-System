@@ -62,10 +62,8 @@ public class ExpenseRecord {
     //         otherwise return false
     public String viewSelectedExpense(String title, LocalDate date) {
         for (Expense e: expenseRecord) {
-            if (e.getExpenseTitle() == title) {
-                if (e.getPaymentTime().isEqual(date)) {
-                    return e.toString();
-                }
+            if (e.getExpenseTitle() == title && e.getPaymentTime().isEqual(date)) {
+                return e.toString();
             }
         }
         return "none";

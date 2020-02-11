@@ -35,10 +35,8 @@ public class Expense {
     public boolean withinMonth(int y, int m) {
         int month = paymentTime.getMonthValue();
         int year = paymentTime.getYear();
-        if (year == y) {
-            if (month == m) {
-                return true;
-            }
+        if (year == y && month == m) {
+            return true;
         }
         return false;
     }
