@@ -73,15 +73,9 @@ public class BudgetManageSystem {
         Expense exp;
         String expTitle = insertTitle();
         String expReceiver = insertReceiver();
-        Double expAmount;
-        LocalDate expDate;
+        Double expAmount =  insertAmount();
+        LocalDate expDate = insertDate();
         String expCategory = insertCategory();
-
-        insertAmount();
-        expAmount = insertAmount();
-
-        insertDate();
-        expDate = insertDate();
 
         exp = new Expense(expTitle,expAmount,expReceiver,expDate,expCategory);
         expenseRecord.addExpense(exp);
@@ -125,7 +119,7 @@ public class BudgetManageSystem {
         double amount = input.nextDouble();
 
         if (amount < 0.0) {
-            System.out.println("Cannot Record Negative Amount...\n");
+            System.out.println("Cannot Record Negative Amount, Amount Saved as 0\n");
             return 0.0;
         } else {
             return amount;
@@ -143,7 +137,7 @@ public class BudgetManageSystem {
         int date = input.nextInt();
 
         if (year <= 1970 | year >= 2050 | date < 1 | date > 31 | month < 1 | month > 12) {
-            System.out.println("Cannot Record This Date...\n");
+            System.out.println("Cannot Record This Date, Date Saved as Current Date\n");
             return LocalDate.now();
         } else {
             return LocalDate.of(year,month,date);
@@ -174,6 +168,22 @@ public class BudgetManageSystem {
             System.out.println("The Record Is Empty, Please Insert Information");
         } else {
             System.out.println(record);
+            viewDetail();
+        }
+    }
+
+    public void viewDetail() {
+        System.out.println("Do You Want To View A Expense In Detail?");
+        System.out.println("\ta -> Yes");
+        System.out.println("\tb -> No");
+        String choice = input.next();
+        choice = choice.toLowerCase();
+
+        if (choice == "a") {
+            String title = insertTitle();
+            LocalDate date = insertDate();
+            String exp = expenseRecord.viewSelectedExpense(title, date);
+            System.out.println(exp);
         }
     }
 
@@ -192,7 +202,8 @@ public class BudgetManageSystem {
         } else if (sum == 0) {
             System.out.println("Recorded Total Expense Amount For This Month is Zero\n");
         } else {
-            System.out.print(sum);
+            System.out.println("Total Expense Amount in " + year + "-" + month + "are $" + sum);
+            System.out.println("\n");
         }
 
     }

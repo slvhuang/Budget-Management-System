@@ -75,24 +75,24 @@ public class Expense {
     }
 
 
-    // setters
-    public void setExpenseTitle(String expenseTitle) {
-        this.expenseTitle = expenseTitle;
-    }
-
-    public void setExpenseAmount(double expenseAmount) {
-        this.expenseAmount = expenseAmount;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
-    }
-
-    public void setPaymentTime(LocalDate paymentTime) {
-        this.paymentTime = paymentTime;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
+//    // setters
+//    public void setExpenseTitle(String expenseTitle) {
+//        this.expenseTitle = expenseTitle;
+//    }
+//
+//    public void setExpenseAmount(double expenseAmount) {
+//        this.expenseAmount = expenseAmount;
+//    }
+//
+//    public void setReceiver(String receiver) {
+//        this.receiver = receiver;
+//    }
+//
+//    public void setPaymentTime(LocalDate paymentTime) {
+//        this.paymentTime = paymentTime;
+//    }
+//
+//    public void setCategory(String category) {
+//        this.category = category;
+//    }
 }
