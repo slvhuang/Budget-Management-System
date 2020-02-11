@@ -40,7 +40,7 @@ public class BudgetManageSystem {
             }
         }
 
-        System.out.println("\nSee you next time!");
+        System.out.println("\nSee you next time!\n");
     }
 
     // EFFECTS: displays menu of options to user
@@ -63,7 +63,7 @@ public class BudgetManageSystem {
         } else if (command.equals("c")) {
             doViewMonthlySum();
         } else {
-            System.out.println("Selection Not Valid");
+            System.out.println("\nSelection Is Not Valid...\n");
         }
     }
 
@@ -79,7 +79,7 @@ public class BudgetManageSystem {
 
         exp = new Expense(expTitle,expAmount,expReceiver,expDate,expCategory);
         expenseRecord.addExpense(exp);
-        System.out.println("New Expense Added Successfully!\n");
+        System.out.println("\nNew Expense Added Successfully!\n");
     }
 
 
@@ -115,11 +115,11 @@ public class BudgetManageSystem {
     //EFFECTS:
     public double insertAmount() {
         System.out.println("\nPlease Type The Amount Of The Expense (positive value)");
-        System.out.print("Enter Amount To Record: $");
+        System.out.print("\nEnter Amount To Record: $");
         double amount = input.nextDouble();
 
         if (amount < 0.0) {
-            System.out.println("Cannot Record Negative Amount, Amount Saved as 0\n");
+            System.out.println("\nCannot Record Negative Amount, Amount Saved as 0\n");
             return 0.0;
         } else {
             return amount;
@@ -137,7 +137,7 @@ public class BudgetManageSystem {
         int date = input.nextInt();
 
         if (year <= 1970 | year >= 2050 | date < 1 | date > 31 | month < 1 | month > 12) {
-            System.out.println("Cannot Record This Date, Date Saved as Current Date\n");
+            System.out.println("\nCannot Record This Date, Date Saved as Current Date");
             return LocalDate.now();
         } else {
             return LocalDate.of(year,month,date);
@@ -165,7 +165,7 @@ public class BudgetManageSystem {
     public void doViewRecord() {
         String record = expenseRecord.viewTitleAndDateList();
         if (record == "") {
-            System.out.println("The Record Is Empty, Please Insert Information");
+            System.out.println("\nThe Record Is Empty, Please Insert Information\n");
         } else {
             System.out.println(record);
             viewDetail();
@@ -173,37 +173,76 @@ public class BudgetManageSystem {
     }
 
     public void viewDetail() {
-        System.out.println("Do You Want To View A Expense In Detail?");
-        System.out.println("\ta -> Yes");
-        System.out.println("\tb -> No");
-        String choice = input.next();
-        choice = choice.toLowerCase();
+        String queryTitle = "";
+        LocalDate queryDate = LocalDate.now();
+        String choice = "";
 
-        if (choice == "a") {
-            String title = insertTitle();
-            LocalDate date = insertDate();
-            String exp = expenseRecord.viewSelectedExpense(title, date);
-            System.out.println(exp);
+        while (!(choice.equals("t") || choice.equals("f"))) {
+            System.out.println("Do You Want To View A Expense In Detail?");
+            System.out.println("\nSelect from:");
+            System.out.println("\tt -> Yes");
+            System.out.println("\tf -> No");
+            choice = input.next();
+            choice = choice.toLowerCase();
         }
+
+        if (choice.equals("t")) {
+            queryTitle = searchTitle();
+            queryDate = searchDate();
+            String exp = expenseRecord.viewSelectedExpense(queryTitle, queryDate);
+
+            if (exp.equals("none")) {
+                System.out.println("\nCannot Find Your Selected Expense...\n");
+            } else {
+                System.out.println("\n" + exp);
+            }
+        } else {
+            System.out.println("\nGoodbye!\n");
+        }
+
+
+    }
+
+
+    public String searchTitle() {
+        System.out.println("\nPlease Type The Title Of The Selected Expense (eg: Grocery)");
+        String title = input.next();
+        return title;
+    }
+
+    public LocalDate searchDate() {
+        System.out.println("\nPlease Type The Year Of The Selected Expense (eg: 2018)");
+        int year = input.nextInt();
+        System.out.println("\nPlease Type The Month Of the Selected Expense (eg: 09)");
+        int month = input.nextInt();
+        System.out.println("\nPlease Type The Date Of the Selected Expense (eg: 25)");
+        int date = input.nextInt();
+
+        if (year <= 1970 | year >= 2050 | date < 1 | date > 31 | month < 1 | month > 12) {
+            return LocalDate.now();
+        } else {
+            return LocalDate.of(year,month,date);
+        }
+
     }
 
 
     //MODIFIES:
     //EFFECTS:
     public void doViewMonthlySum() {
-        System.out.println("\n Please Enter The Year For The Query (eg: 2018)");
+        System.out.println("\nPlease Enter The Year For The Query (eg: 2018)");
         int year = input.nextInt();
-        System.out.println("\n Please Enter The Month For The Query (eg: 09)");
+        System.out.println("\nPlease Enter The Month For The Query (eg: 09)");
         int month = input.nextInt();
         double sum = expenseRecord.totalExpenseOfMonth(year,month);
 
         if (year <= 1970 | year >= 3000 |  month < 1 | month > 12) {
-            System.out.println("The Selected Period Is Invalid...\n");
+            System.out.println("\nThe Selected Period Is Invalid...\n");
         } else if (sum == 0) {
-            System.out.println("Recorded Total Expense Amount For This Month is Zero\n");
+            System.out.println("\nRecorded Total Expense Amount For This Month is Zero\n");
         } else {
-            System.out.println("Total Expense Amount in " + year + "-" + month + "are $" + sum);
-            System.out.println("\n");
+            System.out.println("\nTotal Expense Amount in " + year + "-" + String.format("%02d",month)
+                                + " are $" + sum + "\n");
         }
 
     }
