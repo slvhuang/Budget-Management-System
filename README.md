@@ -17,6 +17,7 @@ features that I want, so I decided to design one by myself.
 
 ### User Stories
 - As a user, I want to be able to add a expense to my expense record
-- As a user, I want to be able to view a list of the titles and dates of expenses in my expense record
+- As a user, I want to be able to view a list of the titles and dates 
+of expenses in my expense record
 - As a user, I want to be able to know my total amount of expenses within a given month of year
 - As a user, I want to be able to select a expense in my expense record and view it in detail
