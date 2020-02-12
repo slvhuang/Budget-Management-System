@@ -1,6 +1,5 @@
 package ui;
 
-
 import model.Expense;
 import model.ExpenseRecord;
 
@@ -14,11 +13,17 @@ public class BudgetManageSystem {
     private Scanner input;
 
 
+    // Citation: This method is inspired by Teller Project, TellerApp class, method TellerApp()
+    //            URL:https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
+
     // EFFECTS: run the management system
     public BudgetManageSystem() {
         runSystem();
     }
 
+
+    // Citation: This method is inspired by Teller Project, TellerApp class, method runTeller()
+    //            URL:https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
 
     // MODIFIES: this
     // EFFECTS: process user input
@@ -42,15 +47,26 @@ public class BudgetManageSystem {
         System.out.println("\nSee you next time!\n");
     }
 
+
+
+    // Citation: This method is inspired by Teller Project, TellerApp class, method displayMenu()
+    //            URL:https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
+
     // EFFECTS: displays menu of options to user
     private void display() {
         System.out.println("\nWelcome to your Budget Management System!\nWhat do you want to do next?");
         System.out.println("\nSelect from:");
-        System.out.println("\ta -> Add a Expense Record");
-        System.out.println("\tb -> View All Expense Record");
+        System.out.println("\ta -> Add A Expense To Your Record");
+        System.out.println("\tb -> View All Expenses In Your Record");
         System.out.println("\tc -> View Monthly Summary");
-        System.out.println("\td -> Quit the System");
+        System.out.println("\td -> Quit The System");
     }
+
+
+
+
+    // Citation: This method is inspired by Teller Project, TellerApp class, method processCommand()
+    //            URL:https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
 
     // MODIFIES: this
     // EFFECTS: processes user command
@@ -119,7 +135,7 @@ public class BudgetManageSystem {
         double amount = input.nextDouble();
 
         if (amount < 0.0) {
-            System.out.println("\nCannot Record Negative Amount, Amount Saved as 0\n");
+            System.out.println("\nCannot Record Negative Amount, Amount Saved as $0.0\n");
             return 0.0;
         } else {
             return amount;
@@ -167,10 +183,16 @@ public class BudgetManageSystem {
         if (record.equals("")) {
             System.out.println("\nThe Record Is Empty, Please Insert Information\n");
         } else {
+            System.out.println("\nNo. | Title | Date");
             System.out.println(record);
+            System.out.println("Number Of Expenses Recorded: " + expenseRecord.getNumExpenses());
+            System.out.println("Total Amount Of Expenses In This Record: $" + expenseRecord.getTotalExpenseAmount());
             viewDetail();
         }
     }
+
+    // Citation: This method is inspired by Teller Project, TellerApp class, method selectAccount()
+    //            URL:https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
 
     // EFFECTS: prompts user to select whether or not view a expense in detail
     public void viewDetail() {
@@ -179,8 +201,8 @@ public class BudgetManageSystem {
         String choice = "";
 
         while (!(choice.equals("t") || choice.equals("f"))) {
-            System.out.println("Do You Want To View A Expense In Detail?");
-            System.out.println("\nSelect from:");
+            System.out.println("\nDo You Want To View A Expense In Detail?");
+            System.out.println("Select from:");
             System.out.println("\tt -> Yes");
             System.out.println("\tf -> No");
             choice = input.next();
@@ -239,19 +261,19 @@ public class BudgetManageSystem {
     //MODIFIES: this
     //EFFECTS: produce a string showing total expense amount for a month
     public void doViewMonthlySum() {
-        System.out.println("\nPlease Enter The Year For The Query (eg: 2018)");
+        System.out.println("\nPlease Type The Year Of Expense Incurred For The Query (eg: 2018)");
         int year = input.nextInt();
-        System.out.println("\nPlease Enter The Month For The Query (eg: 09)");
+        System.out.println("\nPlease Type The Month Of Expense Incurred For The Query (eg: 09)");
         int month = input.nextInt();
         double sum = expenseRecord.totalExpenseOfMonth(year,month);
 
         if (year <= 1970 | year >= 3000 |  month < 1 | month > 12) {
-            System.out.println("\nThe Selected Period Is Invalid...\n");
+            System.out.println("\nThe Selected Time Period Is Invalid...\n");
         } else if (sum == 0) {
-            System.out.println("\nRecorded Total Expense Amount For This Month is Zero\n");
+            System.out.println("\nNo Expense Record Found, Or Total Expense Amount For This Month was $0.0\n");
         } else {
             System.out.println("\nTotal Expense Amount in " + year + "-" + String.format("%02d",month)
-                                + " are $" + sum + "\n");
+                                + " was $" + sum + "\n");
         }
 
     }

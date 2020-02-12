@@ -10,7 +10,7 @@ class ExpenseTest {
     private Expense testExpense;
 
     @BeforeEach
-    void setTestExpense(){
+    void setTestExpense() {
         testExpense = new Expense("Grocery", 8.69, "Walmart",
                 LocalDate.of(2020,01,23), "Food");
     }
@@ -29,6 +29,7 @@ class ExpenseTest {
         assertTrue(testExpense.withinMonth(2020,01));
         assertFalse(testExpense.withinMonth(2019,12));
         assertFalse(testExpense.withinMonth(2020,02));
+        assertFalse(testExpense.withinMonth(2019,01));
     }
 
     @Test

@@ -5,8 +5,8 @@ import java.time.LocalDate;
 // Represents a expense having a:
 //  - title
 //  - amount(in dollars)
-//  - payment time (localtime)
-//  - category
+//  - payment time (local time)
+//  - category name
 //  - receiver name
 
 public class Expense {
@@ -31,7 +31,7 @@ public class Expense {
     // methods
 
     //REQUIRES: y must have 4 digits, m >= 1 and <= 12
-    //EFFECTS: produce true if the expense is recorded as year y and month m
+    //EFFECTS: produce true if the expense's payment time is recorded as year y and month m
     public boolean withinMonth(int y, int m) {
         int month = paymentTime.getMonthValue();
         int year = paymentTime.getYear();
@@ -72,25 +72,4 @@ public class Expense {
         return category;
     }
 
-
-//    // setters
-//    public void setExpenseTitle(String expenseTitle) {
-//        this.expenseTitle = expenseTitle;
-//    }
-//
-//    public void setExpenseAmount(double expenseAmount) {
-//        this.expenseAmount = expenseAmount;
-//    }
-//
-//    public void setReceiver(String receiver) {
-//        this.receiver = receiver;
-//    }
-//
-//    public void setPaymentTime(LocalDate paymentTime) {
-//        this.paymentTime = paymentTime;
-//    }
-//
-//    public void setCategory(String category) {
-//        this.category = category;
-//    }
 }
