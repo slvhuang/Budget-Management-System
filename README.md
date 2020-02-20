@@ -21,3 +21,5 @@ features that I want, so I decided to design one by myself.
 of expenses in my expense record
 - As a user, I want to be able to know my total amount of expenses within a given month of year
 - As a user, I want to be able to select a expense in my expense record and view it in detail
+- As a user, when I select the quit option, I want the option to save my expense record to file
+- As a user, I want to be able to optionally load my expense record from file when the program starts
