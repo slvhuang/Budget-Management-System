@@ -1,6 +1,10 @@
 package model;
 
+import persistence.Saveable;
+import persistence.Reader;
 import java.time.LocalDate;
+
+import java.io.PrintWriter;
 
 // Represents a expense having a:
 //  - title
@@ -9,7 +13,7 @@ import java.time.LocalDate;
 //  - category name
 //  - receiver name
 
-public class Expense {
+public class Expense implements Saveable {
     private String expenseTitle;
     private double expenseAmount;
     private String receiver;
@@ -42,11 +46,25 @@ public class Expense {
     }
 
     //EFFECTS: return a string represents a expense
+    @Override
     public String toString() {
         return expenseTitle + ": $" + expenseAmount
                 + ", receiver: " + receiver
                 + ", time: " + paymentTime.toString()
                 + ", category: " + category + "\n";
+    }
+
+    @Override
+    public void save(PrintWriter printWriter) {
+        printWriter.print(expenseTitle);
+        printWriter.print(Reader.DELIMITER);
+        printWriter.print(expenseAmount);
+        printWriter.print(Reader.DELIMITER);
+        printWriter.print(receiver);
+        printWriter.print(Reader.DELIMITER);
+        printWriter.print(paymentTime.toString());
+        printWriter.print(Reader.DELIMITER);
+        printWriter.println(category);
     }
 
 

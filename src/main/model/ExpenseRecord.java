@@ -1,5 +1,7 @@
 package model;
 
+import persistence.Saveable;
+
 import java.util.ArrayList;
 import java.time.LocalDate;
 
@@ -79,6 +81,19 @@ public class ExpenseRecord {
         return totalExpenseAmount;
     }
 
+    public ArrayList<Expense> getExpenseRecord() {
+        return expenseRecord;
+    }
 
+    public void setExpenseRecord(ArrayList<Expense> expenseRecord) {
+        this.expenseRecord = expenseRecord;
+    }
 
+    public void setNumExpenses(int numExpenses) {
+        this.numExpenses = numExpenses;
+    }
+
+    public void setTotalExpenseAmount(double totalExpenseAmount) {
+        this.totalExpenseAmount = totalExpenseAmount;
+    }
 }

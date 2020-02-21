@@ -1,0 +1,4 @@
+Grocery Shopping,23.8,Walmart,2020-01-23,Food
+Feb Housing,1138.58,UBC SHHS,2020-02-01,Rent
+ECON Textbook,113.7,Pearson,2019-12-31,Book
+Car2go car rent,42.17,Car2go,2020-01-09,Transportation

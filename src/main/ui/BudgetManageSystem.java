@@ -2,14 +2,21 @@ package ui;
 
 import model.Expense;
 import model.ExpenseRecord;
+import persistence.Reader;
+import persistence.Writer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 // Budget Management System
 public class BudgetManageSystem {
-
-    private ExpenseRecord expenseRecord = new ExpenseRecord();
+    private static final String EXPENSE_RECORD_FILE = "./data/expense record.txt";
+    private ExpenseRecord expRecord;
     private Scanner input;
 
 
@@ -26,18 +33,23 @@ public class BudgetManageSystem {
     //            URL:https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
 
     // MODIFIES: this
+    // EFFECTS: loads expenseRecord from EXPENSE_RECORD_FILE, if that
+
+    // MODIFIES: this
     // EFFECTS: process user input
     public void runSystem() {
         boolean keepRunning = true;
         String command;
         input = new Scanner(System.in);
 
+        loadAccounts();
+
         while (keepRunning) {
             display();
             command = input.next();
             command = command.toLowerCase();
 
-            if (command.equals("d")) {
+            if (command.equals("q")) {
                 keepRunning = false;
             } else {
                 processCommand(command);
@@ -47,6 +59,43 @@ public class BudgetManageSystem {
         System.out.println("\nSee you next time!\n");
     }
 
+    // MODIFIES: this
+    // EFFECTS: loads expenses from EXPENSE_RECORD_FILE, if that file exists;
+    // otherwise initializes empty expense record
+    private void loadAccounts() {
+        try {
+            expRecord = new ExpenseRecord();
+            ArrayList<Expense> expenses = Reader.readExpenses(new File(EXPENSE_RECORD_FILE));
+            expRecord.setExpenseRecord(expenses);
+            expRecord.setNumExpenses(expenses.size());
+            double total = 0;
+            for (int i = 0; i < expRecord.getExpenseRecord().size(); i++) {
+                Expense exp = expRecord.getExpenseRecord().get(i);
+                total = total + exp.getExpenseAmount();
+            }
+            expRecord.setTotalExpenseAmount(total);
+        } catch (IOException e) {
+            expRecord = new ExpenseRecord();
+        }
+    }
+
+    // EFFECTS: saves state of expense record to EXPENSE_RECORD_FILE
+    private void saveRecord() {
+        try {
+            Writer writer = new Writer(new File(EXPENSE_RECORD_FILE));
+            for (int i = 0; i < expRecord.getExpenseRecord().size(); i++) {
+                Expense exp = expRecord.getExpenseRecord().get(i);
+                writer.write(exp);
+            }
+            writer.close();
+            System.out.println("Accounts saved to file " + EXPENSE_RECORD_FILE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to save accounts to " + EXPENSE_RECORD_FILE);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            // this is due to a programming error
+        }
+    }
 
 
     // Citation: This method is inspired by Teller Project, TellerApp class, method displayMenu()
@@ -59,7 +108,8 @@ public class BudgetManageSystem {
         System.out.println("\ta -> Add A Expense To Your Record");
         System.out.println("\tb -> View All Expenses In Your Record");
         System.out.println("\tc -> View Monthly Summary");
-        System.out.println("\td -> Quit The System");
+        System.out.println("\td -> Save Record to File");
+        System.out.println("\tq -> Quit The System");
     }
 
 
@@ -77,6 +127,8 @@ public class BudgetManageSystem {
             doViewRecord();
         } else if (command.equals("c")) {
             doViewMonthlySum();
+        } else if (command.equals("d")) {
+            saveRecord();
         } else {
             System.out.println("\nSelection Is Not Valid...\n");
         }
@@ -94,7 +146,7 @@ public class BudgetManageSystem {
         String expCategory = insertCategory();
 
         exp = new Expense(expTitle,expAmount,expReceiver,expDate,expCategory);
-        expenseRecord.addExpense(exp);
+        expRecord.addExpense(exp);
         System.out.println("\nNew Expense Added Successfully!\n");
     }
 
@@ -179,14 +231,14 @@ public class BudgetManageSystem {
     //MODIFIES: this
     //EFFECTS: view a list of titles and dates of all expenses in the record, and view a expense in detail
     public void doViewRecord() {
-        String record = expenseRecord.viewTitleAndDateList();
+        String record = expRecord.viewTitleAndDateList();
         if (record.equals("")) {
             System.out.println("\nThe Record Is Empty, Please Insert Information\n");
         } else {
             System.out.println("\nNo. | Title | Date");
             System.out.println(record);
-            System.out.println("Number Of Expenses Recorded: " + expenseRecord.getNumExpenses());
-            System.out.println("Total Amount Of Expenses In This Record: $" + expenseRecord.getTotalExpenseAmount());
+            System.out.println("Number Of Expenses Recorded: " + expRecord.getNumExpenses());
+            System.out.println("Total Amount Of Expenses In This Record: $" + expRecord.getTotalExpenseAmount());
             viewDetail();
         }
     }
@@ -212,7 +264,7 @@ public class BudgetManageSystem {
         if (choice.equals("t")) {
             queryTitle = searchTitle();
             queryDate = searchDate();
-            String exp = expenseRecord.viewSelectedExpense(queryTitle, queryDate);
+            String exp = expRecord.viewSelectedExpense(queryTitle, queryDate);
 
             if (exp.equals("none")) {
                 System.out.println("\nCannot Find Your Selected Expense...\n");
@@ -265,7 +317,7 @@ public class BudgetManageSystem {
         int year = input.nextInt();
         System.out.println("\nPlease Type The Month Of Expense Incurred For The Query (eg: 09)");
         int month = input.nextInt();
-        double sum = expenseRecord.totalExpenseOfMonth(year,month);
+        double sum = expRecord.totalExpenseOfMonth(year,month);
 
         if (year <= 1970 | year >= 3000 |  month < 1 | month > 12) {
             System.out.println("\nThe Selected Time Period Is Invalid...\n");
