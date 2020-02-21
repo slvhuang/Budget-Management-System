@@ -1,6 +1,7 @@
 package persistence;
 
 import model.Expense;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -12,10 +13,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class ReaderTest {
+    private Reader testReader;
+
+    @BeforeEach
+    void runBefore() {
+        testReader = new Reader();
+    }
+
     @Test
     void testParseExpensesFile1() {
         try {
-            ArrayList<Expense> expenses = Reader.readExpenses(new File("./data/testFile1.txt"));
+            ArrayList<Expense> expenses = testReader.readExpenses(new File("./data/testFile1.txt"));
             Expense exp1 = expenses.get(0);
             assertEquals("Grocery Shopping", exp1.getExpenseTitle());
             assertEquals(23.8, exp1.getExpenseAmount());
@@ -52,7 +60,7 @@ class ReaderTest {
     @Test
     void testIOException() {
         try {
-            Reader.readExpenses(new File("./path/does/not/exist/testAccount.txt"));
+            testReader.readExpenses(new File("./path/does/not/exist/testAccount.txt"));
         } catch (IOException e) {
             // expected
         }
