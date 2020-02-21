@@ -1,7 +1,5 @@
 package model;
 
-import persistence.Saveable;
-
 import java.util.ArrayList;
 import java.time.LocalDate;
 

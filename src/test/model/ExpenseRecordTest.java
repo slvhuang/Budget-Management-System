@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,6 +31,7 @@ public class ExpenseRecordTest {
     void testConstructor() {
         assertEquals(0, testRecord.getNumExpenses());
         assertEquals(0,testRecord.getTotalExpenseAmount());
+        assertEquals(new ArrayList<>(), testRecord.getExpenseRecord());
     }
 
     @Test
@@ -82,5 +84,22 @@ public class ExpenseRecordTest {
         assertEquals("none", testRecord.viewSelectedExpense("Grocery",
                 LocalDate.of(2020,02,23)));
 
+    }
+    @Test
+    void testSetExpenseRecord() {
+        testRecord.setExpenseRecord(new ArrayList<>());
+        assertEquals(new ArrayList<>(),testRecord.getExpenseRecord());
+    }
+
+    @Test
+    void testSetNumExpenses() {
+        testRecord.setNumExpenses(0);
+        assertEquals(0,testRecord.getNumExpenses());
+    }
+
+    @Test
+    void testSetTotalExpenseAmount() {
+        testRecord.setTotalExpenseAmount(0.00);
+        assertEquals(0.00,testRecord.getTotalExpenseAmount());
     }
 }
