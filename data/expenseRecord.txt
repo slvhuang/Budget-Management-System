@@ -3,3 +3,4 @@ Grocery,23.98,save-on-foods,2020-02-22,food
 301 Textbook,123.22,Pearson Education,2019-12-29,book
 Grocery,22.45,Walmart,2020-02-17,food
 302 Textbook,78.22,bookstore,2020-02-01,book
+lunch,13.67,oc,2020-02-22,food

@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 // Budget Management System
 public class BudgetManageSystem {
-    private static final String EXPENSE_RECORD_FILE = "./data/expense record.txt";
+    private String file = "./data/new.txt";
     private ExpenseRecord expRecord;
     private Scanner input;
 
@@ -42,7 +42,7 @@ public class BudgetManageSystem {
         String command;
         input = new Scanner(System.in);
 
-        loadRecord();
+        selectLoad();
 
         while (keepRunning) {
             display();
@@ -50,6 +50,7 @@ public class BudgetManageSystem {
             command = command.toLowerCase();
 
             if (command.equals("q")) {
+                selectSave();
                 keepRunning = false;
             } else {
                 processCommand(command);
@@ -59,16 +60,48 @@ public class BudgetManageSystem {
         System.out.println("\nSee you next time!\n");
     }
 
+
+    // MODIFIES: this
+    // EFFECTS: select whether to load expenses from file
+    // otherwise initializes empty expense record
+    private void selectLoad() {
+        String choice = "";
+
+        while (!(choice.equals("t") || choice.equals("f"))) {
+            System.out.println("\nWelcome to your Budget Management System!");
+            System.out.println("\nDo You Want To Load A Expense Record From File?");
+            System.out.println("Select from:");
+            System.out.println("\tt -> Yes");
+            System.out.println("\tf -> No");
+            choice = input.next();
+            choice = choice.toLowerCase();
+        }
+
+        if (choice.equals("t")) {
+            System.out.println("\nPlease Insert The File Name Of Your Record:");
+            String file = input.next();
+            String fileName = "./data/" + file + ".txt";
+            this.file = fileName;
+            loadRecord(fileName);
+        } else {
+            expRecord = new ExpenseRecord();
+            System.out.println("\nAn Empty Record Loaded\n");
+        }
+    }
+
+
+
+
     // Citation: This method is inspired by Teller Project, TellerApp class, method LoadAccounts()
     //            URL:https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
 
     // MODIFIES: this
     // EFFECTS: loads expenses from EXPENSE_RECORD_FILE, if that file exists;
     // otherwise initializes empty expense record
-    private void loadRecord() {
+    private void loadRecord(String fileName) {
         try {
             expRecord = new ExpenseRecord();
-            ArrayList<Expense> expenses = Reader.readExpenses(new File(EXPENSE_RECORD_FILE));
+            ArrayList<Expense> expenses = Reader.readExpenses(new File(fileName));
             expRecord.setExpenseRecord(expenses);
             expRecord.setNumExpenses(expenses.size());
             double total = 0;
@@ -77,23 +110,55 @@ public class BudgetManageSystem {
                 total = total + exp.getExpenseAmount();
             }
             expRecord.setTotalExpenseAmount(total);
+            System.out.println("\nRecord Loaded Successfully!\n");
         } catch (IOException e) {
             expRecord = new ExpenseRecord();
+            System.out.println("\nCannot Find This File, An Empty Record Loaded\n");
         }
     }
 
-    // EFFECTS: saves state of expense record to EXPENSE_RECORD_FILE
-    private void saveRecord() {
+    // MODIFIES: this
+    // EFFECTS: select whether to save expenses to file
+    private void selectSave() {
+        String choice = "";
+
+        while (!(choice.equals("t") || choice.equals("n") || choice.equals("f"))) {
+            System.out.println("\nDo You Want To Save this Expense Record To File?");
+            System.out.println("Select from:");
+            System.out.println("\tt -> Save the Record to A New File");
+            System.out.println("\tn -> Save the Changes Of This File");
+            System.out.println("\tf -> Do No Save");
+            choice = input.next();
+            choice = choice.toLowerCase();
+        }
+
+        if (choice.equals("t")) {
+            System.out.println("\nPlease Insert The File Name Of Your Record:");
+            String file = input.next();
+            String fileName = "./data/" + file + ".txt";
+            saveRecord(fileName);
+        } else if (choice.equals("n")) {
+            saveRecord(file);
+            System.out.println("\nNew Changes Successfully Saved!");
+        } else {
+            System.out.println("\nGoodbye!\n");
+        }
+    }
+
+
+
+    // EFFECTS: saves state of expense record to file
+    private void saveRecord(String fileName) {
         try {
-            Writer writer = new Writer(new File(EXPENSE_RECORD_FILE));
+            Writer writer = new Writer(new File(fileName));
             for (int i = 0; i < expRecord.getExpenseRecord().size(); i++) {
                 Expense exp = expRecord.getExpenseRecord().get(i);
                 writer.write(exp);
             }
             writer.close();
-            System.out.println("Record saved to file " + EXPENSE_RECORD_FILE);
+            System.out.println("Record saved to file " + fileName);
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to save record to " + EXPENSE_RECORD_FILE);
+            System.out.println("Unable to save record to " + fileName);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             // this is due to a programming error
@@ -106,12 +171,11 @@ public class BudgetManageSystem {
 
     // EFFECTS: displays menu of options to user
     private void display() {
-        System.out.println("\nWelcome to your Budget Management System!\nWhat do you want to do next?");
+        System.out.println("\nWhat do you want to do next?");
         System.out.println("\nSelect from:");
         System.out.println("\ta -> Add A Expense To Your Record");
         System.out.println("\tb -> View All Expenses In Your Record");
         System.out.println("\tc -> View Monthly Summary");
-        System.out.println("\td -> Save Record to File");
         System.out.println("\tq -> Quit The System");
     }
 
@@ -130,8 +194,6 @@ public class BudgetManageSystem {
             doViewRecord();
         } else if (command.equals("c")) {
             doViewMonthlySum();
-        } else if (command.equals("d")) {
-            saveRecord();
         } else {
             System.out.println("\nSelection Is Not Valid...\n");
         }
