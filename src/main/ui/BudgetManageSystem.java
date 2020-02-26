@@ -42,7 +42,7 @@ public class BudgetManageSystem {
         String command;
         input = new Scanner(System.in);
 
-        loadAccounts();
+        loadRecord();
 
         while (keepRunning) {
             display();
@@ -59,10 +59,13 @@ public class BudgetManageSystem {
         System.out.println("\nSee you next time!\n");
     }
 
+    // Citation: This method is inspired by Teller Project, TellerApp class, method LoadAccounts()
+    //            URL:https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
+
     // MODIFIES: this
     // EFFECTS: loads expenses from EXPENSE_RECORD_FILE, if that file exists;
     // otherwise initializes empty expense record
-    private void loadAccounts() {
+    private void loadRecord() {
         try {
             expRecord = new ExpenseRecord();
             ArrayList<Expense> expenses = Reader.readExpenses(new File(EXPENSE_RECORD_FILE));
@@ -88,9 +91,9 @@ public class BudgetManageSystem {
                 writer.write(exp);
             }
             writer.close();
-            System.out.println("Accounts saved to file " + EXPENSE_RECORD_FILE);
+            System.out.println("Record saved to file " + EXPENSE_RECORD_FILE);
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to save accounts to " + EXPENSE_RECORD_FILE);
+            System.out.println("Unable to save record to " + EXPENSE_RECORD_FILE);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             // this is due to a programming error

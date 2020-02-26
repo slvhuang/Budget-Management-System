@@ -1,6 +1,5 @@
 package persistence;
 
-
 import model.Expense;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,8 +14,9 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+//Unit test for Writer class
 class WriterTest {
-    private static final String TEST_FILE = "./data/testRecord.txt";
+    private static final String TEST_FILE = "./data/testFile2.txt";
     private Writer testWriter;
     private Expense exp1;
     private Expense exp2;

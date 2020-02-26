@@ -12,7 +12,7 @@ import java.util.List;
 // Citation: This class is inspired by Teller Project, Reader class
 //            URL:https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
 
-// A reader that can read expense data from a file
+// Represents a reader that can read expense data from a file
 public class Reader {
     public static final String DELIMITER = ",";
 
@@ -52,6 +52,7 @@ public class Reader {
     // expeseTitle of the next expense to be constructed, element 1 represents
     // the expense amount, elements 2 represents the name of receiver, element 3 represents
     // the payment date and element 4 represents the category
+    //
     // EFFECTS: returns an expense constructed from components
     private static Expense parseExpense(List<String> components) {
         String expenseTitle = components.get(0);
