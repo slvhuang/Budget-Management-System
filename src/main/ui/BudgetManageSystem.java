@@ -9,13 +9,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 // Budget Management System
 public class BudgetManageSystem {
-    private String file = "./data/new.txt";
+    private String file = "./data/untitled.txt";
     private ExpenseRecord expRecord;
     private Scanner input;
 
@@ -78,14 +80,14 @@ public class BudgetManageSystem {
         }
 
         if (choice.equals("t")) {
-            System.out.println("\nPlease Insert The File Name Of Your Record:");
+            System.out.println("\nPlease Type The File Name Of Your Record:");
             String file = input.next();
             String fileName = "./data/" + file + ".txt";
             this.file = fileName;
             loadRecord(fileName);
         } else {
             expRecord = new ExpenseRecord();
-            System.out.println("\nAn Empty Record Loaded\n");
+            System.out.println("\nAn Empty Record Created\n");
         }
     }
 
@@ -113,7 +115,7 @@ public class BudgetManageSystem {
             System.out.println("\nRecord Loaded Successfully!\n");
         } catch (IOException e) {
             expRecord = new ExpenseRecord();
-            System.out.println("\nCannot Find This File, An Empty Record Loaded\n");
+            System.out.println("\nCannot Find This File, An Empty Record With Inserted Name Created\n");
         }
     }
 
@@ -125,15 +127,15 @@ public class BudgetManageSystem {
         while (!(choice.equals("t") || choice.equals("n") || choice.equals("f"))) {
             System.out.println("\nDo You Want To Save this Expense Record To File?");
             System.out.println("Select from:");
-            System.out.println("\tt -> Save the Record to A New File");
-            System.out.println("\tn -> Save the Changes Of This File");
+            System.out.println("\tt -> Save the Record To A New File");
+            System.out.println("\tn -> Save the Changes In This File");
             System.out.println("\tf -> Do No Save");
             choice = input.next();
             choice = choice.toLowerCase();
         }
 
         if (choice.equals("t")) {
-            System.out.println("\nPlease Insert The File Name Of Your Record:");
+            System.out.println("\nPlease Type The File Name Of Your Record:");
             String file = input.next();
             String fileName = "./data/" + file + ".txt";
             saveRecord(fileName);
@@ -232,7 +234,7 @@ public class BudgetManageSystem {
 
     //EFFECTS: return the name of receiver for the insertion
     public String insertReceiver() {
-        System.out.println("\nPlease Type The Receiver Of The Expense (eg: UBC SHHS)");
+        System.out.println("\nPlease Type The Receiver Of The Expense (eg: Walmart)");
         String receiver = input.next();
 
         if (receiver.length() == 0) {
@@ -296,6 +298,8 @@ public class BudgetManageSystem {
     //MODIFIES: this
     //EFFECTS: view a list of titles and dates of all expenses in the record, and view a expense in detail
     public void doViewRecord() {
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.FLOOR);
         String record = expRecord.viewTitleAndDateList();
         if (record.equals("")) {
             System.out.println("\nThe Record Is Empty, Please Insert Information\n");
@@ -303,7 +307,8 @@ public class BudgetManageSystem {
             System.out.println("\nNo. | Title | Date");
             System.out.println(record);
             System.out.println("Number Of Expenses Recorded: " + expRecord.getNumExpenses());
-            System.out.println("Total Amount Of Expenses In This Record: $" + expRecord.getTotalExpenseAmount());
+            System.out.println("Total Amount Of Expenses In This Record: $"
+                    + df.format(expRecord.getTotalExpenseAmount()));
             viewDetail();
         }
     }

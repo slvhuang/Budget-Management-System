@@ -1,6 +1,6 @@
-Feb Housing,1138.58,UBS SHHS,2020-01-26,rent
-Grocery,23.98,save-on-foods,2020-02-22,food
-301 Textbook,123.22,Pearson Education,2019-12-29,book
+Feb_Housing,1138.58,UBS_SHHS,2020-01-26,rent
+Grocery,23.98,safeway,2020-02-22,food
+301_Textbook,123.22,Pearson,2019-12-29,book
 Grocery,22.45,Walmart,2020-02-17,food
-302 Textbook,78.22,bookstore,2020-02-01,book
-lunch,13.67,oc,2020-02-22,food
+302_Textbook,78.22,bookstore,2020-02-01,book
+Grocery,23.89,harvest,2020-01-22,food
