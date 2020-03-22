@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// Represents a button and a panel after clicked allow user to add load new data
 public class LoadRecordTool extends Tool {
 
     public LoadRecordTool(BudgetManageSystem system, JComponent parent) {
@@ -26,12 +27,15 @@ public class LoadRecordTool extends Tool {
         button.addActionListener(new LoadRecordTool.LoadRecordToolClickHandler());
     }
 
-    private void loadFile() {
+    // MODIFIES: this
+    // EFFECTS: create a file chooser panel to load data in file to system
+    public void loadFile() {
         JFileChooser fc = new JFileChooser();
         fc.showOpenDialog(system);
         String file = fc.getSelectedFile().getName();
         system.setFile("./data/" + file);
         system.loadRecord(system.getFile());
+        system.cleanModel();
         for (int i = 0; i < system.getExpRecord().getExpenseRecord().size(); i++) {
             Expense e = system.getExpRecord().getExpenseRecord().get(i);
             int num = i + 1;
@@ -42,14 +46,14 @@ public class LoadRecordTool extends Tool {
 
     private class LoadRecordToolClickHandler implements ActionListener {
 
-        // EFFECTS: sets active tool to the addexpense tool
+        // EFFECTS: sets active tool to the load expense tool
         //          called by the framework when the tool is clicked
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
                 loadFile();
             } catch (Exception exc) {
-                //
+                // do nothing
             }
         }
     }

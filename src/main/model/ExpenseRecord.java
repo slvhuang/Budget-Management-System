@@ -1,7 +1,7 @@
 package model;
 
-import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 // Represents a expense record have a list of expenses
 public class ExpenseRecord {
@@ -50,7 +50,7 @@ public class ExpenseRecord {
         double initial = 0;
         for (int i = 0; i < expenseRecord.size(); i++) {
             Expense exp = expenseRecord.get(i);
-            if (exp.withinMonth(y,m)) {
+            if (exp.withinMonth(y, m)) {
                 initial = initial + exp.getExpenseAmount();
             }
         }
@@ -61,7 +61,7 @@ public class ExpenseRecord {
     //EFFECTS: return a string represents a expense which have the same title and payment time,
     //         otherwise return false
     public String viewSelectedExpense(String title, LocalDate date) {
-        for (Expense e: expenseRecord) {
+        for (Expense e : expenseRecord) {
             if (e.getExpenseTitle().equals(title) && e.getPaymentTime().isEqual(date)) {
                 return e.toString();
             }
@@ -74,9 +74,17 @@ public class ExpenseRecord {
         return expenseRecord.size();
     }
 
+    public void setNumExpenses(int numExpenses) {
+        this.numExpenses = numExpenses;
+    }
+
     // return total amount of expenses of the expense record
     public double getTotalExpenseAmount() {
         return totalExpenseAmount;
+    }
+
+    public void setTotalExpenseAmount(double totalExpenseAmount) {
+        this.totalExpenseAmount = totalExpenseAmount;
     }
 
     public ArrayList<Expense> getExpenseRecord() {
@@ -85,13 +93,5 @@ public class ExpenseRecord {
 
     public void setExpenseRecord(ArrayList<Expense> expenseRecord) {
         this.expenseRecord = expenseRecord;
-    }
-
-    public void setNumExpenses(int numExpenses) {
-        this.numExpenses = numExpenses;
-    }
-
-    public void setTotalExpenseAmount(double totalExpenseAmount) {
-        this.totalExpenseAmount = totalExpenseAmount;
     }
 }

@@ -8,6 +8,8 @@ import ui.tools.*;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.io.File;
@@ -15,6 +17,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
+// The GUI interface for the Budget Management System
 public class BudgetManageSystem extends JFrame {
 
     public static final int WIDTH = 1000;
@@ -26,11 +30,20 @@ public class BudgetManageSystem extends JFrame {
     public ExpenseRecord expRecord;
     String[][] data;
     JTable table;
+    JPanel panel;
+    JScrollPane scrollPane;
     DefaultTableModel model;
+    ListSelectionModel listSelectionModel;
 
+    // EFFECTS: constructor for the Budget Management System
     public BudgetManageSystem() {
         super("Budget Managament System");
         initializeFields();
+        try {
+            loadFile();
+        } catch (Exception exc) {
+            // do nothing
+        }
         initializeGraphics();
     }
 
@@ -105,9 +118,10 @@ public class BudgetManageSystem extends JFrame {
     }
 
 
-    //Create a panel and add components to it.
+    //MODIFIES: this
+    //EFFECTS: Create a panel and add components to it.
     private void createDataField() {
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
                 "Expense Record", TitledBorder.CENTER, TitledBorder.TOP));
         String[] header = {"No.", "Title", "Date"};
@@ -121,8 +135,35 @@ public class BudgetManageSystem extends JFrame {
         }
 
         table = new JTable(model);
-        panel.add(new JScrollPane(table));
-        add(panel, BorderLayout.WEST);
+        addTableSelectionListener();
+        scrollPane = new JScrollPane(table);
+        panel.add(scrollPane);
+        add(panel, BorderLayout.CENTER);
+        setSize(450, 400);
+        setVisible(true);
+
+    }
+
+    //MODIFIES: this
+    //EFFECTS: add listSelectionListener to table to allow selection
+    private void addTableSelectionListener() {
+        listSelectionModel = table.getSelectionModel();
+        listSelectionModel.addListSelectionListener(new SharedListSelectionHandler());
+        table.setSelectionModel(listSelectionModel);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: clean the data loaded to table
+    public void cleanModel() {
+        panel.remove(scrollPane);
+
+        String[] header = {"No.", "Title", "Date"};
+        model = new DefaultTableModel(header, 0);
+        table = new JTable(model);
+        addTableSelectionListener();
+        scrollPane = new JScrollPane(table);
+        panel.add(scrollPane);
+        add(panel, BorderLayout.CENTER);
         setSize(450, 400);
         setVisible(true);
     }
@@ -157,6 +198,46 @@ public class BudgetManageSystem extends JFrame {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: create a new Jfilechooser before program start to allow load previous file
+    public void loadFile() {
+        JFileChooser fc = new JFileChooser();
+        fc.showOpenDialog(this);
+        String file = fc.getSelectedFile().getName();
+        this.setFile("./data/" + file);
+        this.loadRecord(this.getFile());
+        for (int i = 0; i < this.getExpRecord().getExpenseRecord().size(); i++) {
+            Expense e = this.getExpRecord().getExpenseRecord().get(i);
+            int num = i + 1;
+            String[] rowData = {Integer.toString(num), e.getExpenseTitle(), e.getPaymentTime().toString()};
+            this.getModel().addRow(rowData);
+        }
+    }
+
+
+    private class SharedListSelectionHandler implements ListSelectionListener {
+
+
+        //EFFECTS: return the expense detail dialog when a row is selected
+        public void valueChanged(ListSelectionEvent e) {
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+
+            if (lsm.isSelectionEmpty()) {
+                //output
+            } else {
+                // Find out which indexes are selected.
+                int minIndex = lsm.getMinSelectionIndex();
+                int maxIndex = lsm.getMaxSelectionIndex();
+                for (int i = minIndex; i <= maxIndex; i++) {
+                    if (lsm.isSelectedIndex(i)) {
+                        Expense exp = expRecord.getExpenseRecord().get(i);
+                        String detail = exp.toString();
+                        JOptionPane.showMessageDialog(new JFrame(), detail);
+                    }
+                }
+            }
+        }
+    }
 }
 
 

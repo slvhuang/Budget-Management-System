@@ -6,9 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.RoundingMode;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
+// Represents a button and a panel after clicked allow user to search monthly data
 public class ViewMonthSumTool extends Tool {
 
     //Strings for the labels
@@ -29,6 +32,8 @@ public class ViewMonthSumTool extends Tool {
         super(system, parent);
     }
 
+    // MODIFIES: this
+    // EFFECTS: create a JButton to view monthly summary
     @Override
     protected void createButton(JComponent parent) {
         button = new JButton("View Monthly Summary");
@@ -42,6 +47,8 @@ public class ViewMonthSumTool extends Tool {
         button.addActionListener(new ViewMonthSumTool.ViewMonthSumToolClickHandler());
     }
 
+
+    // EFFECTS: construct a new text filed for insert month and year when the button is clicked
     private void createQueryPanel() {
         JFrame frame = new JFrame("Insert Interested Date");
         frame.add(new ViewMonthSumToolClickHandler());
@@ -51,6 +58,7 @@ public class ViewMonthSumTool extends Tool {
 
     private class ViewMonthSumToolClickHandler extends JPanel implements ActionListener {
 
+        // EFFECTS: set up the text filed for inserting query information
         public ViewMonthSumToolClickHandler() {
             super(new BorderLayout());
             setUpFormats();
@@ -63,18 +71,21 @@ public class ViewMonthSumTool extends Tool {
             addButton();
         }
 
-        // EFFECTS: sets active tool to the addexpense tool
+        // EFFECTS: sets active tool to the view month sum tool
         //          called by the framework when the tool is clicked
         @Override
         public void actionPerformed(ActionEvent e) {
             createQueryPanel();
         }
 
+
+        // EFFECTS: set up the format for year and month
         private void setUpFormats() {
             yearFormat = new SimpleDateFormat("yyyy");
             monthFormat = new SimpleDateFormat("MM");
         }
 
+        // EFFECTS: add a JButton at the button of the text filed panel to produce monthly sum
         private void addButton() {
             JButton doneButton = new JButton("Search");
             doneButton.setBorderPainted(true);
@@ -84,11 +95,15 @@ public class ViewMonthSumTool extends Tool {
             add(doneButton, BorderLayout.SOUTH);
         }
 
+        // MODIFIES: this
+        // EFFECTS: construct labels
         private void createLabels() {
             yearLabel = new JLabel(queryYearString);
             monthLabel = new JLabel(queryMonthString);
         }
 
+        // MODIFIES: this
+        // EFFECTS: construct text fields
         private void createTextField() {
             yearField = new JFormattedTextField(yearFormat);
             yearField.setColumns(10);
@@ -96,11 +111,13 @@ public class ViewMonthSumTool extends Tool {
             monthField.setColumns(10);
         }
 
+        // EFFECTS: match the label and the text fields
         private void tellAccessibility() {
             yearLabel.setLabelFor(yearField);
             monthLabel.setLabelFor(monthField);
         }
 
+        // EFFECTS: layout the labels in the panel
         public void layoutLabel() {
             JPanel labelPane = new JPanel(new GridLayout(0, 1));
             labelPane.add(yearLabel);
@@ -108,6 +125,7 @@ public class ViewMonthSumTool extends Tool {
             add(labelPane, BorderLayout.CENTER);
         }
 
+        // EFFECTS: layout the text fields in the panel
         public void layoutTextFields() {
             JPanel fieldPane = new JPanel(new GridLayout(0, 1));
             fieldPane.add(yearField);
@@ -125,9 +143,11 @@ public class ViewMonthSumTool extends Tool {
             viewMonthSum();
         }
 
-
+        // EFFECTS: produce a new dialog about monthly sum information
         private void viewMonthSum() {
             try {
+                DecimalFormat df = new DecimalFormat("#.##");
+                df.setRoundingMode(RoundingMode.FLOOR);
                 int year = Integer.parseInt(yearField.getText());
                 int month = Integer.parseInt(monthField.getText());
                 double sum = system.getExpRecord().totalExpenseOfMonth(year, month);
@@ -137,7 +157,7 @@ public class ViewMonthSumTool extends Tool {
                             + "Or Total Expense Amount For This Month was $0.0");
                 } else {
                     JOptionPane.showMessageDialog(new JFrame(), "Total Expense Amount in " + year + "-"
-                            + String.format("%02d", month) + " was $" + sum);
+                            + String.format("%02d", month) + " was $" + df.format(sum));
                 }
 
             } catch (Exception e) {

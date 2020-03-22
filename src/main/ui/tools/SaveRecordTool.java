@@ -13,12 +13,15 @@ import java.io.UnsupportedEncodingException;
 
 import static javax.swing.JOptionPane.YES_OPTION;
 
+// Represents a button and a panel after clicked allow user to save expense data to file
 public class SaveRecordTool extends Tool {
 
     public SaveRecordTool(BudgetManageSystem system, JComponent parent) {
         super(system, parent);
     }
 
+    // MODIFIES: this
+    // EFFECTS: create a JButton to save expense data to file
     @Override
     protected void createButton(JComponent parent) {
         button = new JButton("Save Record");
@@ -30,17 +33,6 @@ public class SaveRecordTool extends Tool {
     @Override
     protected void addListener() {
         button.addActionListener(new SaveRecordTool.SaveRecordToolClickHandler());
-    }
-
-
-    private class SaveRecordToolClickHandler implements ActionListener {
-
-        // EFFECTS: sets active tool to the addexpense tool
-        //          called by the framework when the tool is clicked
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            saveFile();
-        }
     }
 
     private void saveFile() {
@@ -63,9 +55,10 @@ public class SaveRecordTool extends Tool {
         }
     }
 
+    // EFFECTS: create a dialog to allow user choose save data mode
     private void saveNewFileDialog() {
         JFrame frame = new JFrame();
-        String s = (String)JOptionPane.showInputDialog(
+        String s = (String) JOptionPane.showInputDialog(
                 frame,
                 "Please Type The File Name",
                 "Save To New File",
@@ -96,6 +89,16 @@ public class SaveRecordTool extends Tool {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             // this is due to a programming error
+        }
+    }
+
+    private class SaveRecordToolClickHandler implements ActionListener {
+
+        // EFFECTS: sets active tool to the save record tool
+        //          called by the framework when the tool is clicked
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            saveFile();
         }
     }
 

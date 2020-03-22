@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
-//
+// Represents a button and a panel after clicked allow user to add expense data
 public class AddExpenseTool extends Tool {
 
     //Strings for the labels
@@ -44,6 +44,8 @@ public class AddExpenseTool extends Tool {
         super(system, parent);
     }
 
+    // MODIFIES: this
+    // EFFECTS: create a JButton to add expense
     @Override
     protected void createButton(JComponent parent) {
         button = new JButton("Add Expense");
@@ -58,7 +60,7 @@ public class AddExpenseTool extends Tool {
         button.addActionListener(new AddExpenseToolClickHandler());
     }
 
-    // EFFECTS:
+    // EFFECTS: create a new formattedfilefield panel to allow insert expense detail
     private void createInsertPanel() {
         JFrame frame = new JFrame("Insert Expense Information");
         frame.add(new AddExpenseToolClickHandler());
@@ -69,6 +71,8 @@ public class AddExpenseTool extends Tool {
 
     private class AddExpenseToolClickHandler extends JPanel implements ActionListener {
 
+
+        // EFFECTS: set up the text filed for inserting data
         public AddExpenseToolClickHandler() {
             super(new BorderLayout());
             setUpFormats();
@@ -88,11 +92,15 @@ public class AddExpenseTool extends Tool {
             createInsertPanel();
         }
 
+        // MODIFIES: this
+        // EFFECTS: set up the format for date and amount
         private void setUpFormats() {
             amountFormat = new DecimalFormat("#.##");
             paymentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         }
 
+
+        // EFFECTS: add a JButton at the button of the text filed panel to add expense
         private void addButton() {
             JButton doneButton = new JButton("Add");
             doneButton.setBorderPainted(true);
@@ -102,6 +110,8 @@ public class AddExpenseTool extends Tool {
             add(doneButton, BorderLayout.SOUTH);
         }
 
+        // MODIFIES: this
+        // EFFECTS: construct labels
         private void createLabels() {
             titleLabel = new JLabel(titleString);
             amountLabel = new JLabel(amountString);
@@ -110,6 +120,8 @@ public class AddExpenseTool extends Tool {
             categoryLabel = new JLabel(categoryString);
         }
 
+        // MODIFIES: this
+        // EFFECTS: construct text fields
         private void createTextField() {
             titleField = new JFormattedTextField();
             titleField.setColumns(10);
@@ -123,6 +135,8 @@ public class AddExpenseTool extends Tool {
             categoryField.setColumns(10);
         }
 
+
+        // EFFECTS: match the label and the text fields
         private void tellAccessibility() {
             titleLabel.setLabelFor(titleField);
             amountLabel.setLabelFor(amountField);
@@ -131,6 +145,7 @@ public class AddExpenseTool extends Tool {
             categoryLabel.setLabelFor(categoryField);
         }
 
+        // EFFECTS: layout the labels in the panel
         public void layoutLabel() {
             JPanel labelPane = new JPanel(new GridLayout(0, 1));
             labelPane.add(titleLabel);
@@ -141,6 +156,7 @@ public class AddExpenseTool extends Tool {
             add(labelPane, BorderLayout.CENTER);
         }
 
+        // EFFECTS: layout the text fields in the panel
         public void layoutTextFields() {
             JPanel fieldPane = new JPanel(new GridLayout(0, 1));
             fieldPane.add(titleField);
@@ -162,7 +178,8 @@ public class AddExpenseTool extends Tool {
             addExpense();
         }
 
-
+        //MODIFIES: this
+        //EFFECTS: add a expense to the expense record
         private void addExpense() {
             try {
                 Expense exp;

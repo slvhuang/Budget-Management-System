@@ -1,10 +1,10 @@
 package model;
 
-import persistence.Saveable;
 import persistence.Reader;
-import java.time.LocalDate;
+import persistence.Saveable;
 
 import java.io.PrintWriter;
+import java.time.LocalDate;
 
 // Represents a expense having a:
 //  - title
@@ -66,7 +66,6 @@ public class Expense implements Saveable {
         printWriter.print(Reader.DELIMITER);
         printWriter.println(category);
     }
-
 
 
     // getters
