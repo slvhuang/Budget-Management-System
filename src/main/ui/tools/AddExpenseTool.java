@@ -71,7 +71,6 @@ public class AddExpenseTool extends Tool {
 
     private class AddExpenseToolClickHandler extends JPanel implements ActionListener {
 
-
         // EFFECTS: set up the text filed for inserting data
         public AddExpenseToolClickHandler() {
             super(new BorderLayout());

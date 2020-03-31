@@ -4,6 +4,10 @@ import ui.BudgetManageSystem;
 
 import javax.swing.*;
 
+// Citation: the structure and some methods of this class and its subclasses are inspired by the "Tool" class
+// in the DrawingPlayer Project of this course
+
+// Represents a abstract class Tool
 public abstract class Tool {
 
     protected JButton button;
@@ -17,7 +21,7 @@ public abstract class Tool {
     }
 
     // MODIFIES: this
-    // EFFECTS:  customizes the button used for this tool
+    // EFFECTS: customizes the button used for this tool
     protected JButton customizeButton(JButton button) {
         button.setBorderPainted(true);
         button.setFocusPainted(true);

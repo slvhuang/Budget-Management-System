@@ -35,7 +35,8 @@ of expenses in my expense record
 
 - You can generate the second required event by:
 -- click the newly add expense row in the scroll pane in main window
--- a detailed information about your selection expense would appear
+-- a detailed information about your selected expense would appear
+
 - You can locate my visual component by:
 -- click the button labelled "Load Record"
 -- select a file to load(all files are in ./data/... directory in the project folder)
@@ -44,8 +45,17 @@ of expenses in my expense record
 - You can save the state of my application by
 -- click the button labelled "Save Record"
 -- You can either save the record to current file by click "Save To This File" Button
--- Or you can save the record to new file by click "Save To A New File" Button" and insert the file name
+-- Or you can save the record to a new file by click "Save To A New File" Button" and insert the file name
 
 - You can reload the state of my application by either:
 -- before the program start: in the file chooser, select cancel(load empty file) or choose a file in ./data/ package in the project folder
 -- after the program start: click the "Load Record" button, then select file in the file chooser
+
+
+### Phase 4: Task 2
+I choose to implement the second task (include a type hierarchy):
+- The classes are: the abstract class "Tool" and its subclasses "AddExpenseTool", "LoadRecordTool",
+ "SaveRecordTool", and "ViewMonthSumTool" which represent different tool buttons with 
+ different functionality
+- The methods are: two abstract methods "createButton" and "addListener" in the "Tool" class. They have been
+override in each subclass to create different buttons with different customized listener

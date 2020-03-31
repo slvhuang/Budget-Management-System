@@ -25,6 +25,7 @@ public class SaveRecordTool extends Tool {
     @Override
     protected void createButton(JComponent parent) {
         button = new JButton("Save Record");
+        button = customizeButton(button);
         addToParent(parent);
     }
 

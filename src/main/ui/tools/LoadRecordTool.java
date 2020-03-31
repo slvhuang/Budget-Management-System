@@ -17,6 +17,7 @@ public class LoadRecordTool extends Tool {
     @Override
     protected void createButton(JComponent parent) {
         button = new JButton("Load Record");
+        button = customizeButton(button);
         addToParent(parent);
     }
 

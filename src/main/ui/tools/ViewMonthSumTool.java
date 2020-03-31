@@ -37,6 +37,7 @@ public class ViewMonthSumTool extends Tool {
     @Override
     protected void createButton(JComponent parent) {
         button = new JButton("View Monthly Summary");
+        button = customizeButton(button);
         addToParent(parent);
     }
 
