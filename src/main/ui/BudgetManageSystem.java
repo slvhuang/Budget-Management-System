@@ -26,7 +26,6 @@ public class BudgetManageSystem extends JFrame {
 
     public String file;
     public List<Tool> tools;
-    public Tool activeTool;
     public ExpenseRecord expRecord;
     String[][] data;
     JTable table;
@@ -79,7 +78,6 @@ public class BudgetManageSystem extends JFrame {
         file = "./data/untitled.txt";
         data = null;
         tools = new ArrayList<>();
-        activeTool = null;
         expRecord = new ExpenseRecord();
     }
 
