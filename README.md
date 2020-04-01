@@ -59,3 +59,14 @@ I choose to implement the second task (include a type hierarchy):
  different functionality
 - The methods are: two abstract methods "createButton" and "addListener" in the "Tool" class. They have been
 override in each subclass to create different buttons with different customized listener
+
+### Phase 4: Task 3
+- A inter-class coupling between methods "LoadFile" and "createDataField" in the "BudgetManageSystem"
+class, and a coupling between "LoadRecordTool" and "BudgetManageSystem" classes. They have high duplicated code when they want to print the expenseRecord on the scroll pane. ---> So I extract the duplication
+into a new method called "printRecord(ExpenseRecord expRecord)" with different parameters in the three places.
+- Poor cohesion in the subclass "AddExpenseToolClickHandler" of the "AddExpenseTool" class. It not only
+implements ActionListener but also extends JPanel to create a text field window, which violate the single responsibility
+principle. --- > So I split it into two distinct subclasses of the "AddExpenseTool" class, one named "AddExpenseToolClickHandler"
+that only implement ActionListener, the other named "AddExpenseWindow" that only extends JPanel 
+to create text field window. Similar problem also found in the "ViewMonthSum" class and solved in the
+same way.

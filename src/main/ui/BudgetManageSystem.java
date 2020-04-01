@@ -51,6 +51,7 @@ public class BudgetManageSystem extends JFrame {
         new BudgetManageSystem();
     }
 
+    // getters
     public ExpenseRecord getExpRecord() {
         return expRecord;
     }
@@ -127,12 +128,7 @@ public class BudgetManageSystem extends JFrame {
         String[] header = {"No.", "Title", "Date"};
         model = new DefaultTableModel(header, 0);
 
-        for (int i = 0; i < expRecord.getExpenseRecord().size(); i++) {
-            Expense e = expRecord.getExpenseRecord().get(i);
-            int num = i + 1;
-            String[] rowData = {Integer.toString(num), e.getExpenseTitle(), e.getPaymentTime().toString()};
-            model.addRow(rowData);
-        }
+        printRecord(expRecord);
 
         table = new JTable(model);
         addTableSelectionListener();
@@ -206,11 +202,15 @@ public class BudgetManageSystem extends JFrame {
         String file = fc.getSelectedFile().getName();
         this.setFile("./data/" + file);
         this.loadRecord(this.getFile());
-        for (int i = 0; i < this.getExpRecord().getExpenseRecord().size(); i++) {
-            Expense e = this.getExpRecord().getExpenseRecord().get(i);
+        printRecord(expRecord);
+    }
+
+    public void printRecord(ExpenseRecord expRecord) {
+        for (int i = 0; i < expRecord.getExpenseRecord().size(); i++) {
+            Expense e = expRecord.getExpenseRecord().get(i);
             int num = i + 1;
             String[] rowData = {Integer.toString(num), e.getExpenseTitle(), e.getPaymentTime().toString()};
-            this.getModel().addRow(rowData);
+            model.addRow(rowData);
         }
     }
 

@@ -60,19 +60,28 @@ public class AddExpenseTool extends Tool {
         button.addActionListener(new AddExpenseToolClickHandler());
     }
 
-    // EFFECTS: create a new formattedfilefield panel to allow insert expense detail
+    // EFFECTS: create a new formatted text field panel to allow insert expense detail
     private void createInsertPanel() {
         JFrame frame = new JFrame("Insert Expense Information");
-        frame.add(new AddExpenseToolClickHandler());
+        frame.add(new AddExpenseWindow());
         frame.pack();
         frame.setVisible(true);
     }
 
+    private class AddExpenseToolClickHandler implements ActionListener {
 
-    private class AddExpenseToolClickHandler extends JPanel implements ActionListener {
+        // EFFECTS: sets active tool to the addexpense tool
+        //          called by the framework when the tool is clicked
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            createInsertPanel();
+        }
+    }
+
+    private class AddExpenseWindow extends JPanel {
 
         // EFFECTS: set up the text filed for inserting data
-        public AddExpenseToolClickHandler() {
+        public AddExpenseWindow() {
             super(new BorderLayout());
             setUpFormats();
             setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -82,13 +91,6 @@ public class AddExpenseTool extends Tool {
             layoutLabel();
             layoutTextFields();
             addButton();
-        }
-
-        // EFFECTS: sets active tool to the addexpense tool
-        //          called by the framework when the tool is clicked
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            createInsertPanel();
         }
 
         // MODIFIES: this
@@ -168,7 +170,7 @@ public class AddExpenseTool extends Tool {
     }
 
 
-    private class DoneButtonClickHandeler extends JPanel implements ActionListener {
+    private class DoneButtonClickHandeler implements ActionListener {
 
         // EFFECTS: sets active tool to the addexpense tool
         //          called by the framework when the tool is clicked

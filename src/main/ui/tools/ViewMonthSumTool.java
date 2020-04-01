@@ -52,15 +52,25 @@ public class ViewMonthSumTool extends Tool {
     // EFFECTS: construct a new text filed for insert month and year when the button is clicked
     private void createQueryPanel() {
         JFrame frame = new JFrame("Insert Interested Date");
-        frame.add(new ViewMonthSumToolClickHandler());
+        frame.add(new ViewMonthSumWindow());
         frame.pack();
         frame.setVisible(true);
     }
 
-    private class ViewMonthSumToolClickHandler extends JPanel implements ActionListener {
+    private class ViewMonthSumToolClickHandler  implements ActionListener {
+
+        // EFFECTS: sets active tool to the view month sum tool
+        //          called by the framework when the tool is clicked
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            createQueryPanel();
+        }
+    }
+
+    private class ViewMonthSumWindow extends JPanel {
 
         // EFFECTS: set up the text filed for inserting query information
-        public ViewMonthSumToolClickHandler() {
+        public ViewMonthSumWindow() {
             super(new BorderLayout());
             setUpFormats();
             setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -70,13 +80,6 @@ public class ViewMonthSumTool extends Tool {
             layoutLabel();
             layoutTextFields();
             addButton();
-        }
-
-        // EFFECTS: sets active tool to the view month sum tool
-        //          called by the framework when the tool is clicked
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            createQueryPanel();
         }
 
 

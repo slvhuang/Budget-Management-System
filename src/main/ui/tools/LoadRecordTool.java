@@ -1,6 +1,5 @@
 package ui.tools;
 
-import model.Expense;
 import ui.BudgetManageSystem;
 
 import javax.swing.*;
@@ -37,12 +36,7 @@ public class LoadRecordTool extends Tool {
         system.setFile("./data/" + file);
         system.loadRecord(system.getFile());
         system.cleanModel();
-        for (int i = 0; i < system.getExpRecord().getExpenseRecord().size(); i++) {
-            Expense e = system.getExpRecord().getExpenseRecord().get(i);
-            int num = i + 1;
-            String[] rowData = {Integer.toString(num), e.getExpenseTitle(), e.getPaymentTime().toString()};
-            system.getModel().addRow(rowData);
-        }
+        system.printRecord(system.getExpRecord());
     }
 
     private class LoadRecordToolClickHandler implements ActionListener {

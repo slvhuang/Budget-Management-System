@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// Budget Management System
+// Budget Management System (Console based version)
 public class System {
     private String file = "./data/untitled.txt";
     private ExpenseRecord expRecord;
