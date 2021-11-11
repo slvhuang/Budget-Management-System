@@ -24,7 +24,7 @@ of expenses in my expense record
 - As a user, I want the option to save my expense record to file before quit
 - As a user, I want to be able to optionally load my expense record from file when the program starts
 
-### Instructions for Grader
+### Instructions
 - You can generate the first required event by:
 -- open the application by run "BudgetManageSystem" in the ui package
 -- a file chooser window will appear, select "cancel" button first
